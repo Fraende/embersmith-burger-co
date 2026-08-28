@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Embersmith Burger Co. — flame-grilled smash burgers. Demo site concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8D%94%3C/text%3E%3C/svg%3E">
+<title>Embersmith Burger Co.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+</head>
+<body>
+<style>
+  :root{
+    --char:#171210;
+    --char-deep:#100C0A;
+    --smoke:#262019;
+    --smoke-edge:#332a20;
+    --ember:#E8501E;
+    --ember-deep:#B93A12;
+    --flame:#F5A83C;
+    --bone:#F2E7D6;
+    --bone-dim:#D8C9B2;
+    --ash:#A2937F;
+    --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+    --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--char);
+    color:var(--bone);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--ember);color:var(--char)}
+  a{color:inherit}
+  img{max-width:100%}
+
+  .eyebrow{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:.95rem;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--flame);
+  }
+  .section{padding:6.5rem 1.5rem}
+  section[id],header[id]{scroll-margin-top:5rem}
+  .wrap{max-width:1100px;margin:0 auto}
+  h2{
+    font-family:var(--display);
+    font-weight:800;
+    text-transform:uppercase;
+    font-size:clamp(2.6rem,6vw,4.2rem);
+    line-height:.95;
+    letter-spacing:.01em;
+    text-wrap:balance;
+    margin-top:.75rem;
+  }
+  .lede{color:var(--bone-dim);max-width:36rem;margin-top:1.25rem}
+
+  nav{
+    position:fixed;inset:0 0 auto 0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:1rem 1.5rem;
+    background:linear-gradient(rgba(16,12,10,.92),rgba(16,12,10,.75) 70%,transparent);
+    backdrop-filter:blur(6px);
+  }
+  .logo{
+    font-family:var(--display);font-weight:900;font-size:1.35rem;
+    letter-spacing:.08em;text-transform:uppercase;text-decoration:none;
+    display:flex;align-items:center;gap:.55rem;
+  }
+  .logo .spark{
+    width:10px;height:10px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,var(--flame),var(--ember) 70%);
+    box-shadow:0 0 12px 2px rgba(232,80,30,.7);
+  }
+  .nav-links{display:flex;gap:1.75rem;list-style:none}
+  .nav-links a{
+    text-decoration:none;font-family:var(--display);font-weight:700;
+    font-size:.9rem;letter-spacing:.22em;text-transform:uppercase;color:var(--bone-dim);
+    transition:color .2s;
+  }
+  .nav-links a:hover,.nav-links a:focus-visible{color:var(--flame)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--flame);outline-offset:3px}
+  .nav-right{display:flex;align-items:center;gap:1.1rem}
+  .lang-switch{display:flex;gap:.15rem;border:1px solid var(--smoke-edge);border-radius:2px;padding:.15rem}
+  .lang-switch button{
+    appearance:none;border:0;background:transparent;cursor:pointer;
+    font-family:var(--display);font-weight:800;font-size:.78rem;letter-spacing:.14em;
+    color:var(--ash);padding:.35rem .55rem;border-radius:2px;
+    transition:color .15s,background .15s;
+  }
+  .lang-switch button:hover{color:var(--flame)}
+  .lang-switch button[aria-pressed="true"]{
+    color:var(--char);
+    background:linear-gradient(120deg,var(--flame),var(--ember));
+  }
+  .nav-cta{
+    font-family:var(--display);font-weight:800;letter-spacing:.18em;text-transform:uppercase;
+    font-size:.85rem;text-decoration:none;color:var(--char);
+    background:linear-gradient(120deg,var(--flame),var(--ember));
+    padding:.6rem 1.1rem;border-radius:2px;white-space:nowrap;
+  }
+  @media(max-width:860px){.nav-links{display:none}}
+  @media(max-width:480px){.nav-cta{display:none}}
+
+  header.hero{
+    position:relative;min-height:100svh;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:7rem 1rem 4rem;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 108%,rgba(232,80,30,.32),transparent 65%),
+      radial-gradient(ellipse 60% 40% at 50% 112%,rgba(245,168,60,.25),transparent 60%),
+      var(--char-deep);
+    overflow:hidden;
+  }
+  #embers{position:absolute;inset:0;pointer-events:none}
+  .hero-tag{
+    font-family:var(--display);font-weight:700;font-size:1rem;
+    letter-spacing:.45em;text-transform:uppercase;color:var(--ash);
+    margin-bottom:1.5rem;position:relative;
+  }
+  .hero h1{
+    position:relative;
+    font-family:var(--display);font-weight:900;text-transform:uppercase;
+    font-size:clamp(3.4rem,14vw,11rem);
+    line-height:.85;letter-spacing:.005em;
+    text-wrap:balance;
+  }
+  .hero h1 .fire{
+    display:block;
+    background:linear-gradient(175deg,var(--bone) 30%,var(--flame) 55%,var(--ember) 78%,var(--ember-deep));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero-sub{
+    position:relative;margin-top:2rem;max-width:30rem;
+    color:var(--bone-dim);font-size:1.05rem;
+  }
+  .hero-ctas{position:relative;display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;justify-content:center}
+  .btn{
+    font-family:var(--display);font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+    font-size:1rem;text-decoration:none;padding:1rem 2.2rem;border-radius:2px;
+    transition:transform .15s ease,box-shadow .15s ease;
+  }
+  .btn-fire{
+    color:var(--char);
+    background:linear-gradient(120deg,var(--flame),var(--ember));
+    box-shadow:0 6px 30px -8px rgba(232,80,30,.6);
+  }
+  .btn-fire:hover{transform:translateY(-2px);box-shadow:0 10px 36px -8px rgba(232,80,30,.8)}
+  .btn-ghost{color:var(--bone);border:1px solid var(--smoke-edge)}
+  .btn-ghost:hover{border-color:var(--flame);color:var(--flame)}
+  .scroll-hint{
+    position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
+    color:var(--ash);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;
+    font-family:var(--display);font-weight:700;white-space:nowrap;
+  }
+
+  .marquee{
+    border-top:1px solid var(--smoke-edge);border-bottom:1px solid var(--smoke-edge);
+    background:var(--char-deep);overflow:hidden;white-space:nowrap;padding:.85rem 0;
+  }
+  .marquee-track{display:inline-block;animation:slide 28s linear infinite}
+  .marquee span{
+    font-family:var(--display);font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+    font-size:.95rem;color:var(--ash);padding:0 1.4rem;
+  }
+  .marquee span b{color:var(--ember);font-weight:800}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){
+    .marquee-track{animation:none}
+    .btn,.card{transition:none}
+    html{scroll-behavior:auto}
+  }
+
+  .stack-section{background:var(--char)}
+  .stack-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4rem;align-items:center;margin-top:3rem}
+  @media(max-width:1050px){.layer-label{display:none}.burger-stack{align-items:center}}
+  @media(max-width:860px){.stack-grid{grid-template-columns:1fr;gap:3rem}}
+  .burger-stack{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:1rem 0;max-width:100%}
+  .layer{position:relative;transition:transform .25s ease}
+  .layer:hover{transform:translateX(8px) rotate(-1deg)}
+  .bun-top{
+    width:230px;height:88px;border-radius:115px 115px 26px 26px;
+    background:linear-gradient(170deg,#E89B4E,#C9772F 70%,#A85E22);
+    box-shadow:inset 0 10px 18px rgba(255,220,160,.35),0 12px 24px -10px rgba(0,0,0,.6);
+  }
+  .bun-top::after{
+    content:"";position:absolute;inset:18px 30px auto 30px;height:26px;
+    background:
+      radial-gradient(circle 3px at 12% 40%,#F7E3B8 98%,transparent),
+      radial-gradient(circle 3px at 32% 70%,#F7E3B8 98%,transparent),
+      radial-gradient(circle 3px at 52% 30%,#F7E3B8 98%,transparent),
+      radial-gradient(circle 3px at 72% 65%,#F7E3B8 98%,transparent),
+      radial-gradient(circle 3px at 90% 40%,#F7E3B8 98%,transparent);
+  }
+  .lettuce{
+    width:258px;height:22px;border-radius:10px;
+    background:repeating-linear-gradient(90deg,#6FA435 0 22px,#8BC34A 22px 44px);
+    clip-path:polygon(0 40%,4% 0,10% 55%,16% 5%,23% 60%,30% 0,37% 55%,44% 8%,51% 60%,58% 0,65% 55%,72% 6%,79% 60%,86% 0,93% 55%,100% 30%,100% 100%,0 100%);
+  }
+  .tomato{
+    width:240px;height:16px;border-radius:8px;
+    background:linear-gradient(180deg,#E1442B,#B32913);
+    box-shadow:inset 0 3px 5px rgba(255,255,255,.25);
+  }
+  .cheese{
+    width:252px;height:20px;
+    background:linear-gradient(180deg,#F6B93B,#E88F1A);
+    clip-path:polygon(0 0,100% 0,100% 45%,88% 100%,80% 45%,60% 45%,52% 100%,44% 45%,20% 45%,12% 100%,4% 45%,0 45%);
+  }
+  .patty{
+    width:246px;height:44px;border-radius:22px;
+    background:
+      radial-gradient(circle 4px at 18% 35%,#241611 96%,transparent),
+      radial-gradient(circle 5px at 45% 60%,#241611 96%,transparent),
+      radial-gradient(circle 4px at 70% 30%,#241611 96%,transparent),
+      radial-gradient(circle 4px at 86% 60%,#241611 96%,transparent),
+      linear-gradient(180deg,#5C3A26,#3E2416 70%,#2C1810);
+    box-shadow:inset 0 -8px 14px rgba(0,0,0,.5),0 10px 20px -8px rgba(0,0,0,.7);
+  }
+  .bun-bottom{
+    width:236px;height:44px;border-radius:20px 20px 60px 60px;
+    background:linear-gradient(180deg,#D98C42,#B0662A 70%,#8F4F1D);
+    box-shadow:inset 0 6px 10px rgba(255,220,160,.28),0 16px 30px -12px rgba(0,0,0,.8);
+  }
+  .layer-label{
+    position:absolute;left:calc(100% + 1.6rem);top:50%;transform:translateY(-50%);
+    white-space:nowrap;font-family:var(--display);font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase;font-size:.8rem;color:var(--ash);
+  }
+  .layer-label::before{
+    content:"";position:absolute;right:100%;top:50%;width:1.1rem;height:1px;
+    background:var(--smoke-edge);margin-right:.4rem;
+  }
+  @media(max-width:560px){.layer-label{display:none}}
+  .stack-copy p+p{margin-top:1rem;color:var(--bone-dim)}
+  .stack-stats{display:flex;gap:2.5rem;margin-top:2.25rem;flex-wrap:wrap}
+  .stat b{
+    display:block;font-family:var(--display);font-weight:900;font-size:2.4rem;
+    line-height:1;color:var(--flame);font-variant-numeric:tabular-nums;
+  }
+  .stat span{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ash)}
+
+  .menu-section{
+    background:
+      radial-gradient(ellipse 70% 40% at 85% 0%,rgba(232,80,30,.08),transparent 60%),
+      var(--char-deep);
+    border-top:1px solid var(--smoke-edge);
+  }
+  .menu-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+  .menu-note{color:var(--ash);font-size:.9rem;max-width:22rem}
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;margin-top:3rem}
+  .card{
+    background:var(--smoke);border:1px solid var(--smoke-edge);border-radius:4px;
+    display:flex;flex-direction:column;overflow:hidden;
+    transition:transform .18s ease,border-color .18s ease;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(232,80,30,.55)}
+  .card-figure{position:relative;display:block;background:var(--char-deep)}
+  .card-figure::after{
+    content:"";position:absolute;inset:auto 0 0 0;height:38%;
+    background:linear-gradient(transparent,rgba(38,32,25,.85));
+  }
+  .card-img{
+    display:block;width:100%;aspect-ratio:4/3;object-fit:cover;
+    transition:transform .4s ease;
+  }
+  .card:hover .card-img{transform:scale(1.04)}
+  .card-body{padding:1.6rem;display:flex;flex-direction:column;gap:.6rem;flex:1}
+  @media(prefers-reduced-motion:reduce){.card-img{transition:none}.card:hover .card-img{transform:none}}
+  .card-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+  .card h3{
+    font-family:var(--display);font-weight:800;text-transform:uppercase;
+    font-size:1.5rem;letter-spacing:.04em;line-height:1;
+  }
+  .price{
+    font-family:var(--display);font-weight:800;font-size:1.35rem;color:var(--flame);
+    font-variant-numeric:tabular-nums;white-space:nowrap;
+  }
+  .card p{color:var(--bone-dim);font-size:.95rem;line-height:1.55}
+  .tag{
+    align-self:flex-start;margin-top:auto;
+    font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--ember);
+    border:1px solid rgba(232,80,30,.4);padding:.28rem .6rem;border-radius:2px;
+  }
+  .subhead{
+    margin-top:4rem;font-family:var(--display);font-weight:800;text-transform:uppercase;
+    font-size:1.6rem;letter-spacing:.08em;color:var(--bone);
+    display:flex;align-items:center;gap:1rem;
+  }
+  .subhead::after{content:"";flex:1;height:1px;background:var(--smoke-edge)}
+  .side-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.35rem 2.5rem;margin-top:1.5rem;list-style:none}
+  .side-list li{
+    display:flex;justify-content:space-between;align-items:baseline;gap:.75rem;
+    padding:.65rem 0;border-bottom:1px dashed var(--smoke-edge);
+  }
+  .side-list .name{font-weight:600}
+  .side-list .desc{color:var(--ash);font-size:.85rem;display:block}
+  .side-list .price{font-size:1.1rem}
+
+  .story-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4rem;align-items:center}
+  @media(max-width:860px){.story-grid{grid-template-columns:1fr;gap:2.5rem}}
+  .story-copy p+p{margin-top:1rem;color:var(--bone-dim)}
+  .story-copy .big-quote{
+    font-family:var(--display);font-weight:800;text-transform:uppercase;
+    font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;color:var(--flame);
+    border-left:3px solid var(--ember);padding-left:1.25rem;margin:1.75rem 0;
+  }
+  .fire-panel{
+    position:relative;border-radius:6px;overflow:hidden;
+    aspect-ratio:4/5;min-height:320px;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 100%,rgba(245,168,60,.55),transparent 65%),
+      radial-gradient(ellipse 100% 65% at 50% 110%,rgba(232,80,30,.55),transparent 70%),
+      linear-gradient(180deg,#0D0908,#1C130D);
+    border:1px solid var(--smoke-edge);
+    display:flex;align-items:flex-end;padding:2rem;
+  }
+  .fire-panel::before{
+    content:"";position:absolute;inset:0;
+    background-image:repeating-linear-gradient(0deg,transparent 0 46px,rgba(242,231,214,.07) 46px 48px);
+  }
+  .fire-panel figcaption{
+    position:relative;font-family:var(--display);font-weight:800;text-transform:uppercase;
+    letter-spacing:.12em;font-size:1.1rem;color:var(--bone);
+  }
+  .fire-panel figcaption small{
+    display:block;font-weight:700;font-size:.72rem;letter-spacing:.3em;color:var(--ash);margin-top:.35rem;
+  }
+
+  .visit-section{background:var(--char-deep);border-top:1px solid var(--smoke-edge)}
+  .visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-top:3rem}
+  @media(max-width:760px){.visit-grid{grid-template-columns:1fr;gap:2.5rem}}
+  .hours-table{width:100%;border-collapse:collapse}
+  .hours-table td{
+    padding:.7rem 0;border-bottom:1px dashed var(--smoke-edge);
+    font-variant-numeric:tabular-nums;
+  }
+  .hours-table td:first-child{font-family:var(--display);font-weight:700;letter-spacing:.15em;text-transform:uppercase;font-size:.85rem;color:var(--ash)}
+  .hours-table td:last-child{text-align:right;font-weight:600}
+  .hours-table .tonight td{color:var(--flame)}
+  .addr{font-style:normal;line-height:1.8;color:var(--bone-dim)}
+  .addr b{color:var(--bone);font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1.2rem}
+  .addr a{color:var(--flame);text-decoration:none;border-bottom:1px solid rgba(245,168,60,.4)}
+
+  .cta-section{
+    text-align:center;position:relative;overflow:hidden;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 115%,rgba(232,80,30,.4),transparent 65%),
+      var(--char);
+    border-top:1px solid var(--smoke-edge);
+    padding:7rem 1.5rem;
+  }
+  .cta-section h2{font-size:clamp(2.6rem,8vw,6rem)}
+  .cta-section .fire{
+    background:linear-gradient(175deg,var(--bone) 25%,var(--flame) 55%,var(--ember) 85%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  footer{
+    display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap;
+    padding:1.5rem;border-top:1px solid var(--smoke-edge);
+    color:var(--ash);font-size:.8rem;background:var(--char-deep);
+  }
+  footer .foot-links{display:flex;gap:1.5rem;list-style:none}
+  footer a{color:var(--ash);text-decoration:none}
+  footer a:hover{color:var(--flame)}
+  .demo-note{letter-spacing:.08em}
+</style>
+
+<nav>
+  <a class="logo" href="#top"><span class="spark"></span>Embersmith</a>
+  <ul class="nav-links">
+    <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
+    <li><a href="#stack" data-i18n="nav.stack">The Stack</a></li>
+    <li><a href="#story" data-i18n="nav.story">Story</a></li>
+    <li><a href="#visit" data-i18n="nav.visit">Visit</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-lang="fi" aria-pressed="false">FI</button>
+      <button type="button" data-lang="sv" aria-pressed="false">SV</button>
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+    </div>
+    <a class="nav-cta" href="#order" data-i18n="cta.order">Order now</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <p class="hero-tag" data-i18n="hero.tag">Est. 2019 · Flame-grilled daily</p>
+  <h1><span class="fire" data-i18n="hero.l1">Born in</span><span class="fire" data-i18n="hero.l2">the fire</span></h1>
+  <p class="hero-sub" data-i18n="hero.sub">Smash-seared over live oak embers. Buttered brioche, raw-milk cheddar, and a char you can hear from the sidewalk.</p>
+  <div class="hero-ctas">
+    <a class="btn btn-fire" href="#order" data-i18n="cta.order">Order now</a>
+    <a class="btn btn-ghost" href="#menu" data-i18n="cta.menu">See the menu</a>
+  </div>
+  <p class="scroll-hint" data-i18n="hero.scroll">Scroll ↓</p>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span><span data-i18n="mq.1">Live-oak embers</span> <b>·</b></span><span><span data-i18n="mq.2">Ground fresh every morning</span> <b>·</b></span><span><span data-i18n="mq.3">Brioche buttered &amp; toasted</span> <b>·</b></span><span><span data-i18n="mq.4">No freezers on site</span> <b>·</b></span><span><span data-i18n="mq.5">Shakes spun to order</span> <b>·</b></span>
+    <span><span data-i18n="mq.1">Live-oak embers</span> <b>·</b></span><span><span data-i18n="mq.2">Ground fresh every morning</span> <b>·</b></span><span><span data-i18n="mq.3">Brioche buttered &amp; toasted</span> <b>·</b></span><span><span data-i18n="mq.4">No freezers on site</span> <b>·</b></span><span><span data-i18n="mq.5">Shakes spun to order</span> <b>·</b></span>
+  </div>
+</div>
+
+<section class="section stack-section" id="stack">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="stack.eyebrow">Anatomy of the house burger</p>
+    <h2 data-i18n="stack.h2">Built layer by layer</h2>
+    <div class="stack-grid">
+      <div class="burger-stack" id="burger-diagram" role="img" aria-label="Diagram of the Embersmith house burger: toasted brioche crown, shredded lettuce, heirloom tomato, raw-milk cheddar, double smashed patty, buttered brioche heel">
+        <div class="layer"><div class="bun-top"></div><span class="layer-label" data-i18n="stack.crown">Brioche crown, buttered</span></div>
+        <div class="layer"><div class="lettuce"></div><span class="layer-label" data-i18n="stack.lettuce">Shredded iceberg</span></div>
+        <div class="layer"><div class="tomato"></div><span class="layer-label" data-i18n="stack.tomato">Heirloom tomato</span></div>
+        <div class="layer"><div class="cheese"></div><span class="layer-label" data-i18n="stack.cheese">Raw-milk cheddar</span></div>
+        <div class="layer"><div class="patty"></div><span class="layer-label" data-i18n="stack.patty">Double smash patty</span></div>
+        <div class="layer"><div class="bun-bottom"></div><span class="layer-label" data-i18n="stack.heel">Toasted heel + ember sauce</span></div>
+      </div>
+      <div class="stack-copy">
+        <p data-i18n="stack.p1">Every burger starts as a loose-packed ball of chuck and brisket, ground in-house before sunrise. It hits a 700-degree plancha over live-oak embers, gets smashed once — never twice — and comes off with a lace-edged crust you can hear.</p>
+        <p data-i18n="stack.p2">The bun is buttered and kissed on the same fire. The cheddar melts on the flat-top, not under a lamp. Ember sauce — smoked chili, charred onion, a little molasses — goes on the heel, where it belongs.</p>
+        <div class="stack-stats">
+          <div class="stat"><b>700°</b><span data-i18n="stack.s1">Plancha heat</span></div>
+          <div class="stat"><b>2×</b><span data-i18n="stack.s2">Smash patties</span></div>
+          <div class="stat"><b>0</b><span data-i18n="stack.s3">Freezers on site</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section menu-section" id="menu">
+  <div class="wrap">
+    <div class="menu-head">
+      <div>
+        <p class="eyebrow" data-i18n="menu.eyebrow">The board</p>
+        <h2 data-i18n="menu.h2">Menu</h2>
+      </div>
+      <p class="menu-note" data-i18n="menu.note">Everything ground, baked, and spun in-house. Ask for any burger "charred through" — no extra charge, no judgment.</p>
+    </div>
+
+    <div class="menu-grid">
+      <article class="card">
+        <figure class="card-figure">
+          <img class="card-img" decoding="async" width="480" height="360" data-i18n-alt="menu.a1" alt="" src="img/1.webp">
+        </figure>
+        <div class="card-body">
+          <div class="card-top"><h3>The Embersmith</h3><span class="price">$14</span></div>
+          <p data-i18n="menu.d1">Double smash patty, raw-milk cheddar, shredded iceberg, heirloom tomato, ember sauce, buttered brioche.</p>
+          <span class="tag" data-i18n="menu.t1">House signature</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="card-figure">
+          <img class="card-img" decoding="async" width="480" height="360" data-i18n-alt="menu.a2" alt="" src="img/2.webp">
+        </figure>
+        <div class="card-body">
+          <div class="card-top"><h3>Char Royale</h3><span class="price">$16</span></div>
+          <p data-i18n="menu.d2">Triple patty, smoked gouda, oak-bacon, crispy shallots, black-garlic mayo. Comes with napkins. Plural.</p>
+          <span class="tag" data-i18n="menu.t2">For the hungry</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="card-figure">
+          <img class="card-img" decoding="async" width="480" height="360" data-i18n-alt="menu.a3" alt="" src="img/3.webp">
+        </figure>
+        <div class="card-body">
+          <div class="card-top"><h3>Firebird</h3><span class="price">$15</span></div>
+          <p data-i18n="menu.d3">Buttermilk-brined chicken thigh, habanero honey, charred slaw, pickle stack on a toasted potato roll.</p>
+          <span class="tag" data-i18n="menu.t3">Serious heat</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="card-figure">
+          <img class="card-img" decoding="async" width="480" height="360" data-i18n-alt="menu.a4" alt="" src="img/4.webp">
+        </figure>
+        <div class="card-body">
+          <div class="card-top"><h3>Green Ember</h3><span class="price">$13</span></div>
+          <p data-i18n="menu.d4">Charred portobello and black-bean patty, smoked cheddar, pickled red onion, ember sauce. Fully fire-kissed.</p>
+          <span class="tag" data-i18n="menu.t4">Vegetarian</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="card-figure">
+          <img class="card-img" decoding="async" width="480" height="360" data-i18n-alt="menu.a5" alt="" src="img/5.webp">
+        </figure>
+        <div class="card-body">
+          <div class="card-top"><h3>The Minimalist</h3><span class="price">$11</span></div>
+          <p data-i18n="menu.d5">Single smash patty, American cheese, onions pressed into the sear, mustard, pickles. Nothing to hide behind.</p>
+          <span class="tag" data-i18n="menu.t5">Classic</span>
+        </div>
+      </article>
+      <article class="card">
+        <figure class="card-figure">
+          <img class="card-img" decoding="async" width="480" height="360" data-i18n-alt="menu.a6" alt="" src="img/6.webp">
+        </figure>
+        <div class="card-body">
+          <div class="card-top"><h3>Breakfast at Midnight</h3><span class="price">$15</span></div>
+          <p data-i18n="menu.d6">Smash patty, fried egg, oak-bacon, hash-brown crown, maple-chipotle drizzle. Served after 9pm only.</p>
+          <span class="tag" data-i18n="menu.t6">Late night</span>
+        </div>
+      </article>
+    </div>
+
+    <h3 class="subhead" data-i18n="menu.sides">Sides &amp; dips</h3>
+    <ul class="side-list">
+      <li><span class="name"><span data-i18n="side.n1">Ember fries</span><span class="desc" data-i18n="side.d1">twice-cooked, smoked salt</span></span><span class="price">$5</span></li>
+      <li><span class="name"><span data-i18n="side.n2">Charred corn ribs</span><span class="desc" data-i18n="side.d2">lime crema, chili dust</span></span><span class="price">$7</span></li>
+      <li><span class="name"><span data-i18n="side.n3">Onion strings</span><span class="desc" data-i18n="side.d3">buttermilk, cracked pepper</span></span><span class="price">$6</span></li>
+      <li><span class="name"><span data-i18n="side.n4">Burnt-end beans</span><span class="desc" data-i18n="side.d4">slow pot, brisket ends</span></span><span class="price">$6</span></li>
+      <li><span class="name"><span data-i18n="side.n5">Ember sauce flight</span><span class="desc" data-i18n="side.d5">mild, hot, "regret"</span></span><span class="price">$4</span></li>
+      <li><span class="name"><span data-i18n="side.n6">Charred slaw</span><span class="desc" data-i18n="side.d6">grilled cabbage, cider vinegar</span></span><span class="price">$5</span></li>
+    </ul>
+
+    <h3 class="subhead" data-i18n="menu.shakes">Shakes</h3>
+    <ul class="side-list">
+      <li><span class="name"><span data-i18n="shake.n1">Burnt caramel</span><span class="desc" data-i18n="shake.d1">torched sugar, sea salt</span></span><span class="price">$7</span></li>
+      <li><span class="name"><span data-i18n="shake.n2">Smoked vanilla</span><span class="desc" data-i18n="shake.d2">oak-smoked bean, malt</span></span><span class="price">$7</span></li>
+      <li><span class="name"><span data-i18n="shake.n3">Campfire s'mores</span><span class="desc" data-i18n="shake.d3">toasted marshmallow, graham</span></span><span class="price">$8</span></li>
+      <li><span class="name"><span data-i18n="shake.n4">Black cherry cola</span><span class="desc" data-i18n="shake.d4">float-style, spun thick</span></span><span class="price">$7</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-copy">
+        <p class="eyebrow" data-i18n="story.eyebrow">Our story</p>
+        <h2 data-i18n-html="story.h2">One grill.<br>One obsession.</h2>
+        <p class="lede" data-i18n="story.lede">Embersmith started as a Friday-night backyard ritual: a secondhand grill, a bag of live-oak charcoal, and an argument about the perfect smash.</p>
+        <p data-i18n="story.p1">Seven years, one food truck, and roughly forty thousand patties later, the argument is settled — and the answer is on the menu. We still cook over real embers because gas doesn't argue back. We still grind every morning because fresh beef sears differently. And we still butter both sides of the bun, because we're not monsters.</p>
+        <p class="big-quote" data-i18n="story.quote">"If you can't hear the sear, it isn't done right."</p>
+        <p data-i18n="story.attr">— Sam Aalto, pitmaster &amp; founder</p>
+      </div>
+      <figure class="fire-panel">
+        <figcaption><span data-i18n="story.pit">The ember pit</span><small data-i18n="story.pitsub">Live oak · burning since open · 11 AM daily</small></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section visit-section" id="visit">
+  <div class="wrap">
+    <p class="eyebrow" data-i18n="visit.eyebrow">Find the fire</p>
+    <h2 data-i18n="visit.h2">Hours &amp; location</h2>
+    <div class="visit-grid">
+      <table class="hours-table">
+        <tbody>
+          <tr><td data-i18n="visit.monthu">Mon – Thu</td><td>11:00 – 22:00</td></tr>
+          <tr class="tonight"><td data-i18n="visit.fri">Fri</td><td>11:00 – 24:00</td></tr>
+          <tr class="tonight"><td data-i18n="visit.sat">Sat</td><td>12:00 – 24:00</td></tr>
+          <tr><td data-i18n="visit.sun">Sun</td><td>12:00 – 21:00</td></tr>
+          <tr><td data-i18n="visit.late">Late-night board</td><td data-i18n="visit.lateh">after 21:00</td></tr>
+        </tbody>
+      </table>
+      <address class="addr">
+        <b>Embersmith Burger Co.</b><br>
+        <span data-i18n="visit.addr1">48 Founders Yard, Old Market District</span><br>
+        <span data-i18n="visit.addr2">Demo City, DC 00048</span><br><br>
+        <a href="tel:+15550100048">(555) 010-0048</a><br>
+        <a href="mailto:hello@embersmith.example">hello@embersmith.example</a><br><br>
+        <span data-i18n="visit.note">Walk-ins always welcome. Groups of 8+ — call ahead and we'll bank the coals.</span>
+      </address>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="order">
+  <p class="eyebrow" data-i18n="cta.eyebrow">Hungry yet?</p>
+  <h2><span class="fire" data-i18n-html="cta.h2">Get it while<br>it's burning</span></h2>
+  <div class="hero-ctas">
+    <a class="btn btn-fire" href="#top" data-i18n="cta.pickup">Order for pickup</a>
+    <a class="btn btn-ghost" href="#top" data-i18n="cta.delivery">Order delivery</a>
+  </div>
+</section>
+
+<footer>
+  <span data-i18n="foot.legal">© 2026 Embersmith Burger Co. — fictional brand.</span>
+  <ul class="foot-links">
+    <li><a href="#menu" data-i18n="nav.menu">Menu</a></li>
+    <li><a href="#visit" data-i18n="nav.visit">Visit</a></li>
+    <li><a href="#top" data-i18n="foot.top">Top</a></li>
+  </ul>
+  <span class="demo-note" data-i18n="foot.note">Demo site concept · built by Frans</span>
+</footer>
+
+<script>
+(function(){
+  var I18N = {
+    en: {
+      "nav.menu":"Menu","nav.stack":"The Stack","nav.story":"Story","nav.visit":"Visit",
+      "cta.order":"Order now","cta.menu":"See the menu",
+      "hero.tag":"Est. 2019 · Flame-grilled daily","hero.l1":"Born in","hero.l2":"the fire",
+      "hero.sub":"Smash-seared over live oak embers. Buttered brioche, raw-milk cheddar, and a char you can hear from the sidewalk.",
+      "hero.scroll":"Scroll ↓",
+      "mq.1":"Live-oak embers","mq.2":"Ground fresh every morning","mq.3":"Brioche buttered & toasted","mq.4":"No freezers on site","mq.5":"Shakes spun to order",
+      "stack.eyebrow":"Anatomy of the house burger","stack.h2":"Built layer by layer",
+      "stack.crown":"Brioche crown, buttered","stack.lettuce":"Shredded iceberg","stack.tomato":"Heirloom tomato","stack.cheese":"Raw-milk cheddar","stack.patty":"Double smash patty","stack.heel":"Toasted heel + ember sauce",
+      "stack.p1":"Every burger starts as a loose-packed ball of chuck and brisket, ground in-house before sunrise. It hits a 700-degree plancha over live-oak embers, gets smashed once — never twice — and comes off with a lace-edged crust you can hear.",
+      "stack.p2":"The bun is buttered and kissed on the same fire. The cheddar melts on the flat-top, not under a lamp. Ember sauce — smoked chili, charred onion, a little molasses — goes on the heel, where it belongs.",
+      "stack.s1":"Plancha heat","stack.s2":"Smash patties","stack.s3":"Freezers on site",
+      "stack.aria":"Diagram of the Embersmith house burger: toasted brioche crown, shredded lettuce, heirloom tomato, raw-milk cheddar, double smashed patty, buttered brioche heel",
+      "menu.eyebrow":"The board","menu.h2":"Menu",
+      "menu.note":"Everything ground, baked, and spun in-house. Ask for any burger “charred through” — no extra charge, no judgment.",
+      "menu.d1":"Double smash patty, raw-milk cheddar, shredded iceberg, heirloom tomato, ember sauce, buttered brioche.","menu.t1":"House signature",
+      "menu.d2":"Triple patty, smoked gouda, oak-bacon, crispy shallots, black-garlic mayo. Comes with napkins. Plural.","menu.t2":"For the hungry",
+      "menu.d3":"Buttermilk-brined chicken thigh, habanero honey, charred slaw, pickle stack on a toasted potato roll.","menu.t3":"Serious heat",
+      "menu.d4":"Charred portobello and black-bean patty, smoked cheddar, pickled red onion, ember sauce. Fully fire-kissed.","menu.t4":"Vegetarian",
+      "menu.d5":"Single smash patty, American cheese, onions pressed into the sear, mustard, pickles. Nothing to hide behind.","menu.t5":"Classic",
+      "menu.d6":"Smash patty, fried egg, oak-bacon, hash-brown crown, maple-chipotle drizzle. Served after 9pm only.","menu.t6":"Late night",
+      "menu.a1":"Double smash burger with melted cheddar, lettuce and tomato on a dark slate board",
+      "menu.a2":"Towering triple-patty burger with smoked gouda, bacon and crispy shallots",
+      "menu.a3":"Crispy fried chicken sandwich glazed with habanero honey on a potato roll",
+      "menu.a4":"Charred portobello and black bean burger with smoked cheddar and pickled red onion",
+      "menu.a5":"Classic single smash cheeseburger with American cheese, mustard and pickles",
+      "menu.a6":"Breakfast burger with a fried egg, bacon and a hash brown crown",
+      "menu.sides":"Sides & dips","menu.shakes":"Shakes",
+      "side.n1":"Ember fries","side.d1":"twice-cooked, smoked salt",
+      "side.n2":"Charred corn ribs","side.d2":"lime crema, chili dust",
+      "side.n3":"Onion strings","side.d3":"buttermilk, cracked pepper",
+      "side.n4":"Burnt-end beans","side.d4":"slow pot, brisket ends",
+      "side.n5":"Ember sauce flight","side.d5":"mild, hot, “regret”",
+      "side.n6":"Charred slaw","side.d6":"grilled cabbage, cider vinegar",
+      "shake.n1":"Burnt caramel","shake.d1":"torched sugar, sea salt",
+      "shake.n2":"Smoked vanilla","shake.d2":"oak-smoked bean, malt",
+      "shake.n3":"Campfire s'mores","shake.d3":"toasted marshmallow, graham",
+      "shake.n4":"Black cherry cola","shake.d4":"float-style, spun thick",
+      "story.eyebrow":"Our story","story.h2":"One grill.<br>One obsession.",
+      "story.lede":"Embersmith started as a Friday-night backyard ritual: a secondhand grill, a bag of live-oak charcoal, and an argument about the perfect smash.",
+      "story.p1":"Seven years, one food truck, and roughly forty thousand patties later, the argument is settled — and the answer is on the menu. We still cook over real embers because gas doesn't argue back. We still grind every morning because fresh beef sears differently. And we still butter both sides of the bun, because we're not monsters.",
+      "story.quote":"“If you can't hear the sear, it isn't done right.”",
+      "story.attr":"— Sam Aalto, pitmaster & founder",
+      "story.pit":"The ember pit","story.pitsub":"Live oak · burning since open · 11 AM daily",
+      "visit.eyebrow":"Find the fire","visit.h2":"Hours & location",
+      "visit.monthu":"Mon – Thu","visit.fri":"Fri","visit.sat":"Sat","visit.sun":"Sun",
+      "visit.late":"Late-night board","visit.lateh":"after 21:00",
+      "visit.addr1":"48 Founders Yard, Old Market District","visit.addr2":"Demo City, DC 00048",
+      "visit.note":"Walk-ins always welcome. Groups of 8+ — call ahead and we'll bank the coals.",
+      "cta.eyebrow":"Hungry yet?","cta.h2":"Get it while<br>it's burning",
+      "cta.pickup":"Order for pickup","cta.delivery":"Order delivery",
+      "foot.legal":"© 2026 Embersmith Burger Co. — fictional brand.","foot.top":"Top",
+      "foot.note":"Demo site concept · built by Frans"
+    },
+    fi: {
+      "nav.menu":"Menu","nav.stack":"Kerrokset","nav.story":"Tarina","nav.visit":"Aukiolo",
+      "cta.order":"Tilaa nyt","cta.menu":"Katso menu",
+      "hero.tag":"Perustettu 2019 · Liekillä joka päivä","hero.l1":"Tulessa","hero.l2":"syntynyt",
+      "hero.sub":"Smash-paistettu elävän tammihiilloksen yllä. Voideltu briossi, raakamaitocheddar ja paistopinta, jonka kuulet jo kadulle.",
+      "hero.scroll":"Selaa ↓",
+      "mq.1":"Tammihiillos","mq.2":"Jauhettu tuoreena joka aamu","mq.3":"Briossi voideltu ja paahdettu","mq.4":"Ei pakastimia","mq.5":"Pirtelöt vispataan tilauksesta",
+      "stack.eyebrow":"Talon burgerin anatomia","stack.h2":"Rakennettu kerros kerrokselta",
+      "stack.crown":"Briossikansi, voideltu","stack.lettuce":"Suikaloitu jäävuori","stack.tomato":"Perinnetomaatti","stack.cheese":"Raakamaitocheddar","stack.patty":"Tupla-smash-pihvi","stack.heel":"Paahdettu pohja + ember-kastike",
+      "stack.p1":"Jokainen burgeri alkaa löyhästi pyöritellystä chuck- ja brisket-pallosta, joka jauhetaan paikan päällä ennen auringonnousua. Se painetaan 700-asteiselle planchalle elävän tammihiilloksen ylle, smashataan kerran — ei koskaan kahdesti — ja nostetaan pois pitsimäisen rapealla reunalla, jonka kuulee.",
+      "stack.p2":"Sämpylä voidellaan ja paahdetaan samalla tulella. Cheddar sulaa parilalla, ei lampun alla. Ember-kastike — savustettua chiliä, hiillostettua sipulia ja ripaus melassia — levitetään pohjalle, minne se kuuluu.",
+      "stack.s1":"Planchan lämpö","stack.s2":"Smash-pihviä","stack.s3":"Pakastinta talossa",
+      "stack.aria":"Kaavio Embersmithin talon burgerista: paahdettu briossikansi, suikaloitu salaatti, perinnetomaatti, raakamaitocheddar, kaksi smash-pihviä, voideltu briossipohja",
+      "menu.eyebrow":"Talon taulu","menu.h2":"Menu",
+      "menu.note":"Kaikki jauhetaan, leivotaan ja vispataan itse. Pyydä mikä tahansa burgeri ”läpihiillostettuna” — ei lisämaksua, ei tuomitsemista.",
+      "menu.d1":"Tupla-smash-pihvi, raakamaitocheddar, suikaloitu jäävuori, perinnetomaatti, ember-kastike, voideltu briossi.","menu.t1":"Talon klassikko",
+      "menu.d2":"Kolmoispihvi, savugouda, tammipekoni, rapeat salottisipulit, mustavalkosipulimajoneesi. Mukana servettejä. Monikossa.","menu.t2":"Nälkäisille",
+      "menu.d3":"Kirnupiimässä marinoitu kananreisi, habanerohunaja, hiillostettu coleslaw ja suolakurkkupino paahdetulla perunasämpylällä.","menu.t3":"Todella tulinen",
+      "menu.d4":"Hiillostettu portobello-mustapapupihvi, savucheddar, pikkelöity punasipuli, ember-kastike. Kauttaaltaan tulen koskettama.","menu.t4":"Kasvis",
+      "menu.d5":"Yksi smash-pihvi, amerikanjuusto, pihviin paistetut sipulit, sinappi, suolakurkut. Ei mitään, minkä taakse piiloutua.","menu.t5":"Klassikko",
+      "menu.d6":"Smash-pihvi, paistettu kananmuna, tammipekoni, röstikansi, vaahtera-chipotle-valutus. Tarjolla vain klo 21 jälkeen.","menu.t6":"Yömenu",
+      "menu.a1":"Tupla-smash-burgeri sulaneella cheddarilla, salaatilla ja tomaatilla tummalla liuskekivellä",
+      "menu.a2":"Korkea kolmoispihviburgeri savugoudalla, pekonilla ja rapeilla salottisipuleilla",
+      "menu.a3":"Rapea friteerattu kanaleipä habanerohunajakuorrutuksella perunasämpylällä",
+      "menu.a4":"Hiillostettu portobello-mustapapuburgeri savucheddarilla ja pikkelöidyllä punasipulilla",
+      "menu.a5":"Klassinen yhden pihvin juustohampurilainen amerikanjuustolla, sinapilla ja suolakurkulla",
+      "menu.a6":"Aamiaisburgeri paistetulla kananmunalla, pekonilla ja röstikannella",
+      "menu.sides":"Lisukkeet & dipit","menu.shakes":"Pirtelöt",
+      "side.n1":"Ember-ranskalaiset","side.d1":"kahteen kertaan kypsennetyt, savusuola",
+      "side.n2":"Hiillostetut maissiribsit","side.d2":"limekerma, chilipöly",
+      "side.n3":"Sipulisäikeet","side.d3":"kirnupiimä, rouhittu pippuri",
+      "side.n4":"Burnt end -pavut","side.d4":"hidas pata, brisketin päät",
+      "side.n5":"Ember-kastikelento","side.d5":"mieto, tulinen, ”katumus”",
+      "side.n6":"Hiillostettu coleslaw","side.d6":"grillattu kaali, omenaviinietikka",
+      "shake.n1":"Poltettu karamelli","shake.d1":"liekitetty sokeri, merisuola",
+      "shake.n2":"Savuvanilja","shake.d2":"tammisavustettu tanko, mallas",
+      "shake.n3":"Nuotio-s'mores","shake.d3":"paahdettu vaahtokarkki, keksimuru",
+      "shake.n4":"Tummakirsikkakola","shake.d4":"float-tyyliin, paksuksi vispattu",
+      "story.eyebrow":"Tarinamme","story.h2":"Yksi grilli.<br>Yksi pakkomielle.",
+      "story.lede":"Embersmith alkoi perjantai-iltojen takapiharituaalina: käytetty grilli, säkillinen tammihiiltä ja väittely täydellisestä smashista.",
+      "story.p1":"Seitsemän vuotta, yksi ruokarekka ja noin neljäkymmentätuhatta pihviä myöhemmin väittely on ratkennut — ja vastaus on ruokalistalla. Grillaamme yhä oikealla hiilloksella, koska kaasu ei väitä vastaan. Jauhamme yhä joka aamu, koska tuore liha paistuu eri tavalla. Ja voitelemme yhä sämpylän molemmat puolet, koska emme ole hirviöitä.",
+      "story.quote":"”Jos et kuule paistopintaa, se ei ole valmis.”",
+      "story.attr":"— Sam Aalto, pitmaster & perustaja",
+      "story.pit":"Hiilipesä","story.pitsub":"Tammi · palanut avaamisesta asti · joka päivä klo 11",
+      "visit.eyebrow":"Löydä tuli","visit.h2":"Aukioloajat & sijainti",
+      "visit.monthu":"Ma – To","visit.fri":"Pe","visit.sat":"La","visit.sun":"Su",
+      "visit.late":"Yömenu","visit.lateh":"klo 21 jälkeen",
+      "visit.addr1":"48 Founders Yard, Old Market District","visit.addr2":"Demo City, DC 00048",
+      "visit.note":"Ilman varausta aina tervetullut. Yli 8 hengen seurueet — soittakaa etukäteen, niin kasaamme hiilloksen valmiiksi.",
+      "cta.eyebrow":"Joko on nälkä?","cta.h2":"Hae omasi<br>kun se hehkuu",
+      "cta.pickup":"Tilaa noudettavaksi","cta.delivery":"Tilaa kotiinkuljetus",
+      "foot.legal":"© 2026 Embersmith Burger Co. — kuvitteellinen brändi.","foot.top":"Ylös",
+      "foot.note":"Demosivukonsepti · toteutus Frans"
+    },
+    sv: {
+      "nav.menu":"Meny","nav.stack":"Lagren","nav.story":"Historia","nav.visit":"Hitta hit",
+      "cta.order":"Beställ nu","cta.menu":"Se menyn",
+      "hero.tag":"Grundat 2019 · Flamgrillat varje dag","hero.l1":"Född i","hero.l2":"elden",
+      "hero.sub":"Smashstekt över glödande ekkol. Smörad brioche, cheddar på opastöriserad mjölk och en stekyta du hör ända ut på gatan.",
+      "hero.scroll":"Skrolla ↓",
+      "mq.1":"Glöd av ek","mq.2":"Malet färskt varje morgon","mq.3":"Brioche smörad & rostad","mq.4":"Inga frysar i huset","mq.5":"Shakes vispas på beställning",
+      "stack.eyebrow":"Husburgarens anatomi","stack.h2":"Byggd lager för lager",
+      "stack.crown":"Briochelock, smörat","stack.lettuce":"Strimlad isbergssallad","stack.tomato":"Heirloom-tomat","stack.cheese":"Opastöriserad cheddar","stack.patty":"Dubbel smashbiff","stack.heel":"Rostad botten + embersås",
+      "stack.p1":"Varje burgare börjar som en löst rullad boll av högrev och brisket, malen på plats före soluppgången. Den möter en 700-gradig plancha över glödande ekkol, smashas en gång — aldrig två — och lyfts av med en spetskantad stekyta som hörs.",
+      "stack.p2":"Brödet smöras och rostas över samma eld. Cheddarn smälter på stekbordet, inte under en värmelampa. Embersåsen — rökt chili, bränd lök och en aning melass — läggs på bottenbrödet, där den hör hemma.",
+      "stack.s1":"Planchans värme","stack.s2":"Smashbiffar","stack.s3":"Frysar i huset",
+      "stack.aria":"Diagram över Embersmiths husburgare: rostat briochelock, strimlad sallad, heirloom-tomat, opastöriserad cheddar, dubbel smashbiff, smörad briochebotten",
+      "menu.eyebrow":"Tavlan","menu.h2":"Meny",
+      "menu.note":"Allt mals, bakas och vispas i huset. Be om valfri burgare ”genombränd” — ingen extra kostnad, inga blickar.",
+      "menu.d1":"Dubbel smashbiff, opastöriserad cheddar, strimlad isberg, heirloom-tomat, embersås, smörad brioche.","menu.t1":"Husets signatur",
+      "menu.d2":"Trippelbiff, rökt gouda, ekbacon, frasig schalottenlök, svartvitlöksmajonnäs. Servetter ingår. I plural.","menu.t2":"För de hungriga",
+      "menu.d3":"Kärnmjölksmarinerat kycklinglår, habanerohonung, bränd slaw och en picklestapel på rostat potatisbröd.","menu.t3":"Rejält het",
+      "menu.d4":"Grillad portobello- och svartbönebiff, rökt cheddar, picklad rödlök, embersås. Helt eldkysst.","menu.t4":"Vegetarisk",
+      "menu.d5":"En smashbiff, amerikansk ost, lök pressad i stekytan, senap, pickles. Inget att gömma sig bakom.","menu.t5":"Klassiker",
+      "menu.d6":"Smashbiff, stekt ägg, ekbacon, råraka på toppen, lönn-chipotledroppar. Serveras endast efter kl 21.","menu.t6":"Sen kväll",
+      "menu.a1":"Dubbel smashburgare med smält cheddar, sallad och tomat på en mörk skifferbricka",
+      "menu.a2":"Hög trippelburgare med rökt gouda, bacon och frasig schalottenlök",
+      "menu.a3":"Frasig friterad kycklingmacka glaserad med habanerohonung på potatisbröd",
+      "menu.a4":"Grillad portobello- och svartböneburgare med rökt cheddar och picklad rödlök",
+      "menu.a5":"Klassisk enkel smashburgare med amerikansk ost, senap och pickles",
+      "menu.a6":"Frukostburgare med stekt ägg, bacon och en råraka på toppen",
+      "menu.sides":"Tillbehör & dip","menu.shakes":"Shakes",
+      "side.n1":"Ember-pommes","side.d1":"dubbelfriterade, rökt salt",
+      "side.n2":"Brända majsribs","side.d2":"limekräm, chilipuder",
+      "side.n3":"Löksträngar","side.d3":"kärnmjölk, krossad peppar",
+      "side.n4":"Burnt ends-bönor","side.d4":"långkokt gryta, brisketändar",
+      "side.n5":"Embersås-provning","side.d5":"mild, het, ”ånger”",
+      "side.n6":"Bränd slaw","side.d6":"grillad kål, cidervinäger",
+      "shake.n1":"Bränd karamell","shake.d1":"flamberat socker, havssalt",
+      "shake.n2":"Rökt vanilj","shake.d2":"ekrökt vaniljstång, malt",
+      "shake.n3":"Lägereld-s'mores","shake.d3":"rostad marshmallow, kexsmulor",
+      "shake.n4":"Svartkörsbärscola","shake.d4":"float-stil, tjockvispad",
+      "story.eyebrow":"Vår historia","story.h2":"En grill.<br>En besatthet.",
+      "story.lede":"Embersmith började som en fredagsritual på bakgården: en begagnad grill, en säck ekkol och ett gräl om den perfekta smashen.",
+      "story.p1":"Sju år, en foodtruck och ungefär fyrtiotusen biffar senare är grälet avgjort — och svaret står på menyn. Vi grillar fortfarande över riktig glöd, för gasol säger inte emot. Vi mal fortfarande varje morgon, för färskt kött steker annorlunda. Och vi smörar fortfarande brödets båda sidor, för vi är inga monster.",
+      "story.quote":"”Hör du inte stekytan är den inte klar.”",
+      "story.attr":"— Sam Aalto, pitmaster & grundare",
+      "story.pit":"Glödgropen","story.pitsub":"Ek · brinner sedan öppning · dagligen kl 11",
+      "visit.eyebrow":"Hitta elden","visit.h2":"Öppettider & hitta hit",
+      "visit.monthu":"Mån – Tors","visit.fri":"Fre","visit.sat":"Lör","visit.sun":"Sön",
+      "visit.late":"Nattmeny","visit.lateh":"efter kl 21",
+      "visit.addr1":"48 Founders Yard, Old Market District","visit.addr2":"Demo City, DC 00048",
+      "visit.note":"Drop-in alltid välkommet. Sällskap på 8+ — ring i förväg så bäddar vi glöden.",
+      "cta.eyebrow":"Hungrig än?","cta.h2":"Ta din<br>medan det glöder",
+      "cta.pickup":"Beställ för avhämtning","cta.delivery":"Beställ hemkörning",
+      "foot.legal":"© 2026 Embersmith Burger Co. — fiktivt varumärke.","foot.top":"Upp",
+      "foot.note":"Demokoncept · byggd av Frans"
+    }
+  };
+
+  function setLang(lang){
+    var dict = I18N[lang] || I18N.en;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k = el.getAttribute('data-i18n');
+      if(dict[k] !== undefined) el.textContent = dict[k];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(function(el){
+      var k = el.getAttribute('data-i18n-html');
+      if(dict[k] !== undefined) el.innerHTML = dict[k];
+    });
+    document.querySelectorAll('[data-i18n-alt]').forEach(function(el){
+      var k = el.getAttribute('data-i18n-alt');
+      if(dict[k] !== undefined) el.setAttribute('alt', dict[k]);
+    });
+    var diagram = document.getElementById('burger-diagram');
+    if(diagram && dict['stack.aria']) diagram.setAttribute('aria-label', dict['stack.aria']);
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('.lang-switch button').forEach(function(b){
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-lang') === lang));
+    });
+    try{ localStorage.setItem('embersmith-lang', lang); }catch(e){}
+  }
+
+  var initial = 'en';
+  try{
+    var saved = localStorage.getItem('embersmith-lang');
+    if(saved && I18N[saved]) initial = saved;
+    else{
+      var nav = (navigator.language || 'en').slice(0,2).toLowerCase();
+      if(I18N[nav]) initial = nav;
+    }
+  }catch(e){
+    var nl = (navigator.language || 'en').slice(0,2).toLowerCase();
+    if(I18N[nl]) initial = nl;
+  }
+  document.querySelectorAll('.lang-switch button').forEach(function(b){
+    b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); });
+  });
+  setLang(initial);
+})();
+
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var c = document.getElementById('embers');
+  if(!c || reduce) return;
+  var ctx = c.getContext('2d');
+  var w,h,parts=[];
+  function resize(){
+    var r = c.parentElement.getBoundingClientRect();
+    w = c.width = r.width; h = c.height = r.height;
+  }
+  window.addEventListener('resize',resize); resize();
+  var N = Math.min(70, Math.floor(w/18));
+  for(var i=0;i<N;i++){
+    parts.push({
+      x:Math.random()*w, y:h+Math.random()*h*0.5,
+      r:0.8+Math.random()*2.2,
+      vy:0.25+Math.random()*0.8,
+      vx:(Math.random()-0.5)*0.3,
+      hue:20+Math.random()*22,
+      life:Math.random()
+    });
+  }
+  function tick(){
+    ctx.clearRect(0,0,w,h);
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i];
+      p.y-=p.vy; p.x+=p.vx+Math.sin(p.y*0.01+i)*0.15; p.life-=0.0022;
+      if(p.y<-10||p.life<=0){p.y=h+10;p.x=Math.random()*w;p.life=0.6+Math.random()*0.4;}
+      var a=Math.max(0,Math.min(0.85,p.life))*(p.y/h*0.7+0.3);
+      ctx.beginPath();
+      ctx.fillStyle='hsla('+p.hue+',90%,60%,'+a.toFixed(3)+')';
+      ctx.shadowColor='hsla('+p.hue+',95%,55%,0.8)';
+      ctx.shadowBlur=6;
+      ctx.arc(p.x,p.y,p.r,0,6.2832);
+      ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+
+</body>
+</html>
